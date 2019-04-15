@@ -48,8 +48,7 @@ md "\\?\c:\windows "
 ```
 新创建的文件夹，如果直接访问的话，会导向真实的windows文件夹
 如下图：
-![197d2744807cb32af0e80a13a7f5b43b.png](evernotecid://D319CD0B-0004-42C9-A762-A98DCD3649CB/appyinxiangcom/18124815/ENResource/p948)
-
+![](https://raw.githubusercontent.com/xxxxxyyyy/blog_image/master/2019-04/02.jpg)
 #### 2、默认能够绕过UAC的文件
 需要满足一下三个条件：
 
@@ -77,7 +76,7 @@ exe 程序在启动过程中需要加载dll，加载的这个dll是按照一定�
 这些文件的特征之一是manifest中的autoElevate属性为true,可以借助powershell实现自动化搜索，参考工具：
 https://github.com/g3rzi/Manifesto
 原博客使用的GUI版本，这里我试试ps的：
-![6a8dea1351388606d8aadf27e249a80c.png](evernotecid://D319CD0B-0004-42C9-A762-A98DCD3649CB/appyinxiangcom/18124815/ENResource/p949)
+![](https://raw.githubusercontent.com/xxxxxyyyy/blog_image/master/2019-04/03.jpg)
 可以看到能找到 autoElevate 属性为true的文件还是比较多。
 
 ##### 2、使用Long UNC 创建一个特殊的文件夹“c:\windows \”
@@ -93,7 +92,7 @@ md "\\?\c:\windows \system32\"
 ##### 3、记录启动过程，寻找启动时加载的dll
 这个步骤我脑子犯抽了，应该建立好LONG UNC 目录后，（“c:\windows \system32\”）,再把你上个步骤发现的含有autoElevate属性为true的程序都拷贝到该目录下来，一个个的去执行，然后去监控是否在当前目录("c:\windows \system32\")没有找到的dll，说明这个程序会在当前目录去寻找dll，那我们就可以把我们的dll放到该目录，去达成劫持效果哦。
 下面是我执行“fodhelper.exe”的结果，可以看到有多个dll在当前目录无法找到，我们就来利用PROPSYS.dll吧。
-![f1d4dfe003122e672b82809cdd57516c.png](evernotecid://D319CD0B-0004-42C9-A762-A98DCD3649CB/appyinxiangcom/18124815/ENResource/p951)
+![](https://raw.githubusercontent.com/xxxxxyyyy/blog_image/master/2019-04/04.jpg)
 
 #### 4、生成自己的dll并进行替换
 使用ExportsToC++ 来自动导出dll函数表并生成C++代码。
@@ -101,18 +100,18 @@ md "\\?\c:\windows \system32\"
 
 使用ExportsToC++ 打开(c:\windows\system32\PROPSYS.DLL),然后选择Convert,并填入c:\windows\system32\propsys.dll:
 
-![0c791d7b7fcfdfc2e7d6a304add8a08d.png](evernotecid://D319CD0B-0004-42C9-A762-A98DCD3649CB/appyinxiangcom/18124815/ENResource/p952)
+![](https://raw.githubusercontent.com/xxxxxyyyy/blog_image/master/2019-04/05.jpg)
 
 在vs中新建dll项目，将上面生成的C++代码复制进去
 注意：如果你要利用的操作系统是64位的，你需要编译64位的dll，我开始没注意这个问题，又卡了好久，多亏 @3gstudent 师傅耐心解答。
-![ff50dcaeac8a3bccf36a69cc2087e5c3.png](evernotecid://D319CD0B-0004-42C9-A762-A98DCD3649CB/appyinxiangcom/18124815/ENResource/p956)
+![](https://raw.githubusercontent.com/xxxxxyyyy/blog_image/master/2019-04/06.jpg)
 
 
 然后将该dll生成出来更名为 PROPSYS.dll 放入"c:\windows \system32\"文件夹
-![3c707404f49719fd7cd1d0d3eba16b9f.png](evernotecid://D319CD0B-0004-42C9-A762-A98DCD3649CB/appyinxiangcom/18124815/ENResource/p955)
+![](https://raw.githubusercontent.com/xxxxxyyyy/blog_image/master/2019-04/07.jpg)
 
 输入全路径进行启动：
-![e294ae0130ba71912db25fcaa82d8a65.png](evernotecid://D319CD0B-0004-42C9-A762-A98DCD3649CB/appyinxiangcom/18124815/ENResource/p957)
+![](https://raw.githubusercontent.com/xxxxxyyyy/blog_image/master/2019-04/08.jpg)
 
 启动了多个cmd.exe，权限直接是system的。
 
