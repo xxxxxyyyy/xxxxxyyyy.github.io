@@ -37,7 +37,7 @@ type putty.exe > "\\?\C:\Windows\System32\calc.exe
 
 type 命令的功能是将一个文件的内容 输出为另外一个文件，相当于拷贝。
 
-![](/blog_image/trust_bypass_01.jpg)
+![](https://raw.githubusercontent.com/xxxxxyyyy/blog_image/master/2019-04/01.jpg)
 上面的命令的结果就会在对应位置生成一个putty.exe,名字是"calc.exe ",但是在查看属性时，大小只有27KB，同真实的calc.exe文件属性一样，猜测系统去识别属性时是去查看了真实的calc.exe.
 
 用这样同样的方法也可以建立文件
