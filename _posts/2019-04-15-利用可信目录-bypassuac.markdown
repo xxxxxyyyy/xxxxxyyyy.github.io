@@ -63,11 +63,11 @@ exe 程序在启动过程中需要加载dll，加载的这个dll是按照一定�
 综上，满足绕过了UAC的所有条件
 实现思路如下：
 
-1. 找到一个默认能够绕过UAC的文件，例如c:\windows\system32\winsat.exe。
-2. 使用Long UNC创建一个特殊的文件夹“c:\windows \”，并将winsat.exe复制到该目录。
-3. 执行winsat.exe，记录它启动的过程，看它会加载哪些dll，例如winnm.dll。
-4. 编写payload.dll,指定导出函数跟c:\windows\system32\winmm.dll相同，并命名为“c:\windows \system32\winmm.dll”。
-5. 执行"c:\windows \system32\winsat.exe"，将在动绕过UAC，加载"c:\windows \system32\winmm.dll",来执行我们的payload。
+1. 找到一个默认能够绕过UAC的文件，例如c:\windows\system32\fodhelper.exe。
+2. 使用Long UNC创建一个特殊的文件夹“c:\windows \”，并将fodhelper.exe复制到该目录。
+3. 执行fodhelper.exe记录它启动的过程，看它会加载哪些dll，例如fodhelper.exe。
+4. 编写payload.dll,指定导出函数跟c:\windows\system32\propsys.dll相同，并命名为“c:\windows \system32\propsys.dll”。
+5. 执行"c:\windows \system32\fodhelper.exe"，将在动绕过UAC，加载"c:\windows \system32\propsys.dll",来执行我们的payload。
 
 ## 0x03 实现细节
 
@@ -89,12 +89,12 @@ md "\\?\c:\windows \system32\"
 ```
 
 ### 3、记录启动过程，寻找启动时加载的dll
-这个步骤我脑子犯抽了，应该建立好LONG UNC 目录后，（“c:\windows \system32\”）,再把你上个步骤发现的含有autoElevate属性为true的程序都拷贝到该目录下来，一个个的去执行，然后去监控是否在当前目录("c:\windows \system32\")没有找到的dll，说明这个程序会在当前目录去寻找dll，那我们就可以把我们的dll放到该目录，去达成劫持效果哦。
-下面是我执行“fodhelper.exe”的结果，可以看到有多个dll在当前目录无法找到，我们就来利用PROPSYS.dll吧。
+建立好LONG UNC 目录后，（“c:\windows \system32\”）,再把你上个步骤发现的含有autoElevate属性为true的程序都拷贝到该目录下来，使用全路径去执行，然后去监控是否在当前目录("c:\windows \system32\")没有找到的dll，说明这个程序会在当前目录去寻找dll，那我们就可以把我们的dll放到该目录，去达成劫持效果。
+下面是我执行“fodhelper.exe”的结果，可以看到有多个dll在当前目录无法找到，我们就来利用propsys.dll吧。
 ![](https://raw.githubusercontent.com/xxxxxyyyy/blog_image/master/2019-04/04.jpg)
 
 ### 4、生成自己的dll并进行替换
-使用ExportsToC++ 来自动导出dll函数表并生成C++代码。
+使用ExportsToC++ 来自动导出原来该程序加载的dll函数表并生成C++代码,来生成我们含有payload的dll。
 注意：ExportsToC++ 启动时时候需要在 Visual Tools Command Prompt 里面去启动，不然会报错。
 
 使用ExportsToC++ 打开(c:\windows\system32\PROPSYS.DLL),然后选择Convert,并填入c:\windows\system32\propsys.dll:
