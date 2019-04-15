@@ -11,14 +11,12 @@ permalink: /archivers/模拟可信目录绕过UAC
 ### 0x00 前言
 
 
-* * *
 从3gstudent博客学习到的技巧，自己来复现一遍，顺便熟悉一下markdown语法，通过模拟可信目录来绕过UAC，主要是参考3gstudent的博客内容进行复现。
 
 文章地址：https://3gstudent.github.io/3gstudent.github.io/%E9%80%9A%E8%BF%87%E6%A8%A1%E6%8B%9F%E5%8F%AF%E4%BF%A1%E7%9B%AE%E5%BD%95%E7%BB%95%E8%BF%87UAC%E7%9A%84%E5%88%A9%E7%94%A8%E5%88%86%E6%9E%90/
 
 ### 0x01 简介
 
-* * *
 
 * 原理介绍
 * 实现细节
@@ -26,7 +24,7 @@ permalink: /archivers/模拟可信目录绕过UAC
 * 利用分析
 
 ### 0x02 原理介绍
-* * *
+
 #### 1、Long UNC
 使用long UNC可以进行文件名欺骗。
 例如：
